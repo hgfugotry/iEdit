@@ -15,7 +15,7 @@
 
 //项目头文件
 #include"MainEditor/MainEditor.hpp"
-#include"MainEditor/SubEditor.hpp"
+#include"MainEditor/SubEditor/SubEditor.hpp"
 #include"MenuBar/MenuBar.hpp"
 
 class MainWindow:public QMainWindow
