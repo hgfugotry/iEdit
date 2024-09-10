@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
 CXXFLAGS      = -pipe -O2 -frtti -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
-INCPATH       = -I. -I. -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++
+INCPATH       = -I. -I. -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -Imoc -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/lly/Qt/6.7.2/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = iEdit1.0.0
-DISTDIR = /home/lly/Documents/Code/Qt/iEdit/pro/.tmp/iEdit1.0.0
+DISTDIR = /home/lly/Documents/Code/Qt/iEdit/pro/obj/iEdit1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/home/lly/Qt/6.7.2/gcc_64/lib -Wl,-rpath-link,/home/lly/Qt/6.7.2/gcc_64/lib
 LIBS          = $(SUBLIBS) /home/lly/Qt/6.7.2/gcc_64/lib/libQt6Widgets.so /home/lly/Qt/6.7.2/gcc_64/lib/libQt6Gui.so /home/lly/Qt/6.7.2/gcc_64/lib/libQt6Core.so -lpthread -lGL   
@@ -48,7 +48,7 @@ STRIP         = strip
 
 ####### Output directory
 
-OBJECTS_DIR   = ./
+OBJECTS_DIR   = obj/
 
 ####### Files
 
@@ -56,19 +56,19 @@ SOURCES       = ../src/main.cpp \
 		../src/MainWindow.cpp \
 		../src/MenuBar/MenuBar.cpp \
 		../src/MainEditor/MainEditor.cpp \
-		../src/MainEditor/SubEditor.cpp moc_MainWindow.cpp \
-		moc_MenuBar.cpp \
-		moc_MainEditor.cpp \
-		moc_SubEditor.cpp
-OBJECTS       = main.o \
-		MainWindow.o \
-		MenuBar.o \
-		MainEditor.o \
-		SubEditor.o \
-		moc_MainWindow.o \
-		moc_MenuBar.o \
-		moc_MainEditor.o \
-		moc_SubEditor.o
+		../src/MainEditor/SubEditor/SubEditor.cpp moc/moc_MainWindow.cpp \
+		moc/moc_MenuBar.cpp \
+		moc/moc_MainEditor.cpp \
+		moc/moc_SubEditor.cpp
+OBJECTS       = obj/main.o \
+		obj/MainWindow.o \
+		obj/MenuBar.o \
+		obj/MainEditor.o \
+		obj/SubEditor.o \
+		obj/moc_MainWindow.o \
+		obj/moc_MenuBar.o \
+		obj/moc_MainEditor.o \
+		obj/moc_SubEditor.o
 DIST          = /home/lly/Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/lly/Qt/6.7.2/gcc_64/mkspecs/common/unix.conf \
 		/home/lly/Qt/6.7.2/gcc_64/mkspecs/common/linux.conf \
@@ -416,11 +416,11 @@ DIST          = /home/lly/Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
 		iEdit.pro ../src/MainWindow.hpp \
 		../src/MenuBar/MenuBar.hpp \
 		../src/MainEditor/MainEditor.hpp \
-		../src/MainEditor/SubEditor.hpp ../src/main.cpp \
+		../src/MainEditor/SubEditor/SubEditor.hpp ../src/main.cpp \
 		../src/MainWindow.cpp \
 		../src/MenuBar/MenuBar.cpp \
 		../src/MainEditor/MainEditor.cpp \
-		../src/MainEditor/SubEditor.cpp
+		../src/MainEditor/SubEditor/SubEditor.cpp
 QMAKE_TARGET  = iEdit
 DESTDIR       = 
 TARGET        = iEdit
@@ -1144,8 +1144,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/lly/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/MainWindow.hpp ../src/MenuBar/MenuBar.hpp ../src/MainEditor/MainEditor.hpp ../src/MainEditor/SubEditor.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/main.cpp ../src/MainWindow.cpp ../src/MenuBar/MenuBar.cpp ../src/MainEditor/MainEditor.cpp ../src/MainEditor/SubEditor.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/MainWindow.hpp ../src/MenuBar/MenuBar.hpp ../src/MainEditor/MainEditor.hpp ../src/MainEditor/SubEditor/SubEditor.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/main.cpp ../src/MainWindow.cpp ../src/MenuBar/MenuBar.cpp ../src/MainEditor/MainEditor.cpp ../src/MainEditor/SubEditor/SubEditor.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1171,37 +1171,37 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_predefs_make_all: moc_predefs.h
+compiler_moc_predefs_make_all: moc/moc_predefs.h
 compiler_moc_predefs_clean:
-	-$(DEL_FILE) moc_predefs.h
-moc_predefs.h: /home/lly/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp
-	g++ -pipe -O2 -frtti -Wall -Wextra -fPIC -dM -E -o moc_predefs.h /home/lly/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp
+	-$(DEL_FILE) moc/moc_predefs.h
+moc/moc_predefs.h: /home/lly/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp
+	g++ -pipe -O2 -frtti -Wall -Wextra -fPIC -dM -E -o moc/moc_predefs.h /home/lly/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_MainWindow.cpp moc_MenuBar.cpp moc_MainEditor.cpp moc_SubEditor.cpp
+compiler_moc_header_make_all: moc/moc_MainWindow.cpp moc/moc_MenuBar.cpp moc/moc_MainEditor.cpp moc/moc_SubEditor.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_MainWindow.cpp moc_MenuBar.cpp moc_MainEditor.cpp moc_SubEditor.cpp
-moc_MainWindow.cpp: ../src/MainWindow.hpp \
+	-$(DEL_FILE) moc/moc_MainWindow.cpp moc/moc_MenuBar.cpp moc/moc_MainEditor.cpp moc/moc_SubEditor.cpp
+moc/moc_MainWindow.cpp: ../src/MainWindow.hpp \
 		../src/MainEditor/MainEditor.hpp \
-		../src/MainEditor/SubEditor.hpp \
+		../src/MainEditor/SubEditor/SubEditor.hpp \
 		../src/MenuBar/MenuBar.hpp \
-		moc_predefs.h \
+		moc/moc_predefs.h \
 		/home/lly/Qt/6.7.2/gcc_64/libexec/moc
-	/home/lly/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/lly/Documents/Code/Qt/iEdit/pro/moc_predefs.h -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/include -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/MainWindow.hpp -o moc_MainWindow.cpp
+	/home/lly/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/lly/Documents/Code/Qt/iEdit/pro/moc/moc_predefs.h -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/include -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/MainWindow.hpp -o moc/moc_MainWindow.cpp
 
-moc_MenuBar.cpp: ../src/MenuBar/MenuBar.hpp \
-		moc_predefs.h \
+moc/moc_MenuBar.cpp: ../src/MenuBar/MenuBar.hpp \
+		moc/moc_predefs.h \
 		/home/lly/Qt/6.7.2/gcc_64/libexec/moc
-	/home/lly/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/lly/Documents/Code/Qt/iEdit/pro/moc_predefs.h -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/include -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/MenuBar/MenuBar.hpp -o moc_MenuBar.cpp
+	/home/lly/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/lly/Documents/Code/Qt/iEdit/pro/moc/moc_predefs.h -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/include -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/MenuBar/MenuBar.hpp -o moc/moc_MenuBar.cpp
 
-moc_MainEditor.cpp: ../src/MainEditor/MainEditor.hpp \
-		moc_predefs.h \
+moc/moc_MainEditor.cpp: ../src/MainEditor/MainEditor.hpp \
+		moc/moc_predefs.h \
 		/home/lly/Qt/6.7.2/gcc_64/libexec/moc
-	/home/lly/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/lly/Documents/Code/Qt/iEdit/pro/moc_predefs.h -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/include -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/MainEditor/MainEditor.hpp -o moc_MainEditor.cpp
+	/home/lly/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/lly/Documents/Code/Qt/iEdit/pro/moc/moc_predefs.h -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/include -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/MainEditor/MainEditor.hpp -o moc/moc_MainEditor.cpp
 
-moc_SubEditor.cpp: ../src/MainEditor/SubEditor.hpp \
-		moc_predefs.h \
+moc/moc_SubEditor.cpp: ../src/MainEditor/SubEditor/SubEditor.hpp \
+		moc/moc_predefs.h \
 		/home/lly/Qt/6.7.2/gcc_64/libexec/moc
-	/home/lly/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/lly/Documents/Code/Qt/iEdit/pro/moc_predefs.h -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/include -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/MainEditor/SubEditor.hpp -o moc_SubEditor.cpp
+	/home/lly/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/lly/Documents/Code/Qt/iEdit/pro/moc/moc_predefs.h -I/home/lly/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Documents/Code/Qt/iEdit/pro -I/home/lly/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/lly/Qt/6.7.2/gcc_64/include/QtGui -I/home/lly/Qt/6.7.2/gcc_64/include/QtCore -I. -I/home/lly/Qt/6.7.2/gcc_64/include -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/MainEditor/SubEditor/SubEditor.hpp -o moc/moc_SubEditor.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1219,38 +1219,38 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
-main.o: ../src/main.cpp ../src/MainWindow.hpp \
+obj/main.o: ../src/main.cpp ../src/MainWindow.hpp \
 		../src/MainEditor/MainEditor.hpp \
-		../src/MainEditor/SubEditor.hpp \
+		../src/MainEditor/SubEditor/SubEditor.hpp \
 		../src/MenuBar/MenuBar.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../src/main.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o ../src/main.cpp
 
-MainWindow.o: ../src/MainWindow.cpp ../src/MainWindow.hpp \
+obj/MainWindow.o: ../src/MainWindow.cpp ../src/MainWindow.hpp \
 		../src/MainEditor/MainEditor.hpp \
-		../src/MainEditor/SubEditor.hpp \
+		../src/MainEditor/SubEditor/SubEditor.hpp \
 		../src/MenuBar/MenuBar.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o ../src/MainWindow.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainWindow.o ../src/MainWindow.cpp
 
-MenuBar.o: ../src/MenuBar/MenuBar.cpp ../src/MenuBar/MenuBar.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MenuBar.o ../src/MenuBar/MenuBar.cpp
+obj/MenuBar.o: ../src/MenuBar/MenuBar.cpp ../src/MenuBar/MenuBar.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MenuBar.o ../src/MenuBar/MenuBar.cpp
 
-MainEditor.o: ../src/MainEditor/MainEditor.cpp ../src/MainEditor/MainEditor.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainEditor.o ../src/MainEditor/MainEditor.cpp
+obj/MainEditor.o: ../src/MainEditor/MainEditor.cpp ../src/MainEditor/MainEditor.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainEditor.o ../src/MainEditor/MainEditor.cpp
 
-SubEditor.o: ../src/MainEditor/SubEditor.cpp ../src/MainEditor/SubEditor.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SubEditor.o ../src/MainEditor/SubEditor.cpp
+obj/SubEditor.o: ../src/MainEditor/SubEditor/SubEditor.cpp ../src/MainEditor/SubEditor/SubEditor.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/SubEditor.o ../src/MainEditor/SubEditor/SubEditor.cpp
 
-moc_MainWindow.o: moc_MainWindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MainWindow.o moc_MainWindow.cpp
+obj/moc_MainWindow.o: moc/moc_MainWindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_MainWindow.o moc/moc_MainWindow.cpp
 
-moc_MenuBar.o: moc_MenuBar.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MenuBar.o moc_MenuBar.cpp
+obj/moc_MenuBar.o: moc/moc_MenuBar.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_MenuBar.o moc/moc_MenuBar.cpp
 
-moc_MainEditor.o: moc_MainEditor.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MainEditor.o moc_MainEditor.cpp
+obj/moc_MainEditor.o: moc/moc_MainEditor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_MainEditor.o moc/moc_MainEditor.cpp
 
-moc_SubEditor.o: moc_SubEditor.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_SubEditor.o moc_SubEditor.cpp
+obj/moc_SubEditor.o: moc/moc_SubEditor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_SubEditor.o moc/moc_SubEditor.cpp
 
 ####### Install
 

@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../src/MainEditor/SubEditor.hpp"
+#include "../../src/MainEditor/SubEditor/SubEditor.hpp"
 #include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
