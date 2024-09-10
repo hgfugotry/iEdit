@@ -1,0 +1,1 @@
+QPixmap支持的文件格式包括BMP、GIF、JPG、JPEG、PNG、PBM、PGM、PPM、XBM、XPM
