@@ -34,6 +34,7 @@ private slots:
 	void actSaveFile_triggered();
 	void actSaveAsFile_triggered();
 	void actSetFont_triggered();
+	void actSetViewMode_triggered();
 };
 
 #endif

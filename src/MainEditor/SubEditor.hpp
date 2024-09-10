@@ -3,6 +3,7 @@
 #include<QtCore/QSaveFile>
 #include<QtCore/QFileInfo>
 #include<QtCore/QException>
+#include<QtGui/QIcon>
 #include<QtWidgets/QWidget>
 #include<QtWidgets/QPlainTextEdit>
 #include<QtWidgets/QMessageBox>
@@ -16,6 +17,7 @@ public:
 	SubEditor(QWidget* parent=nullptr);
 	~SubEditor();
 private:
+	QIcon icon;
 	QString m_file;
 public:
 	QString file()const;

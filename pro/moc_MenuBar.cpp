@@ -43,7 +43,8 @@ constexpr auto qt_meta_stringdata_CLASSMenuBarENDCLASS = QtMocHelpers::stringDat
     "openFileTriggered",
     "saveFileTriggered",
     "saveAsFileTriggered",
-    "setFontTriggered"
+    "setFontTriggered",
+    "setViewModeTriggered"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -56,24 +57,26 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMenuBarENDCLASS[] = {
       12,       // revision
        0,       // classname
        1,   14, // classinfo
-       5,   16, // methods
+       6,   16, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       5,       // signalCount
+       6,       // signalCount
 
  // classinfo: key, value
        1,    2,
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       3,    0,   46,    4, 0x06,    1 /* Public */,
-       5,    0,   47,    4, 0x06,    2 /* Public */,
-       6,    0,   48,    4, 0x06,    3 /* Public */,
-       7,    0,   49,    4, 0x06,    4 /* Public */,
-       8,    0,   50,    4, 0x06,    5 /* Public */,
+       3,    0,   52,    4, 0x06,    1 /* Public */,
+       5,    0,   53,    4, 0x06,    2 /* Public */,
+       6,    0,   54,    4, 0x06,    3 /* Public */,
+       7,    0,   55,    4, 0x06,    4 /* Public */,
+       8,    0,   56,    4, 0x06,    5 /* Public */,
+       9,    0,   57,    4, 0x06,    6 /* Public */,
 
  // signals: parameters
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -101,6 +104,8 @@ Q_CONSTINIT const QMetaObject MenuBar::staticMetaObject = { {
         // method 'saveAsFileTriggered'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'setFontTriggered'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'setViewModeTriggered'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -117,6 +122,7 @@ void MenuBar::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 2: _t->saveFileTriggered(); break;
         case 3: _t->saveAsFileTriggered(); break;
         case 4: _t->setFontTriggered(); break;
+        case 5: _t->setViewModeTriggered(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -156,6 +162,13 @@ void MenuBar::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
                 return;
             }
         }
+        {
+            using _t = void (MenuBar::*)();
+            if (_t _q_method = &MenuBar::setViewModeTriggered; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 5;
+                return;
+            }
+        }
     }
     (void)_a;
 }
@@ -179,13 +192,13 @@ int MenuBar::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }
@@ -218,5 +231,11 @@ void MenuBar::saveAsFileTriggered()
 void MenuBar::setFontTriggered()
 {
     QMetaObject::activate(this, &staticMetaObject, 4, nullptr);
+}
+
+// SIGNAL 5
+void MenuBar::setViewModeTriggered()
+{
+    QMetaObject::activate(this, &staticMetaObject, 5, nullptr);
 }
 QT_WARNING_POP

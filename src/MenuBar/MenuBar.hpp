@@ -18,13 +18,16 @@ private:
 
 	QMenu settings;
 	QAction setFont;
+	QAction setViewMode;
 
 	void setMenus();
 	void setActions();
+	void connectActions();
 signals:
 	void newFileTriggered();
 	void openFileTriggered();
 	void saveFileTriggered();
 	void saveAsFileTriggered();
 	void setFontTriggered();
+	void setViewModeTriggered();
 };

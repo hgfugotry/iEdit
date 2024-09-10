@@ -2,6 +2,8 @@
 
 SubEditor::SubEditor(QWidget* parent):QPlainTextEdit(parent)
 {
+	icon=QIcon("aaaaa.ico");
+	this->setWindowIcon(icon);
 	this->setWindowTitle("新建[*]");
 	this->setAttribute(Qt::WA_DeleteOnClose);
 	connect(this,SIGNAL(modificationChanged(bool)),this,SLOT(setWindowModified(bool)));
@@ -60,7 +62,7 @@ void SubEditor::setFile(const QString& file)
 	m_file=file;
 	this->clear();
 	this->setPlainText(readFile(file));
-	this->setWindowModified(false); 
+	this->setWindowModified(false);
 	QFileInfo fileInfo(m_file);
 	this->setWindowTitle(fileInfo.fileName()+"[*]");
 }
